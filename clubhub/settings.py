@@ -24,7 +24,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 # 3. Read ALLOWED_HOSTS securely (uses Csv to handle list of hosts)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', 'clubhub-21.onrender.com',)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', 'clubhubevents2121.onrender.com',)
 
 
 # Application definition
