@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>College Event Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0A4D68",
+                        "secondary": "#4F8A8B",
+                        "background-light": "#F8F9FA",
+                        "background-dark": "#101622",
+                        "text-light": "#212529",
+                        "text-dark": "#F8F9FA",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px",
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm p-4 justify-between border-b border-gray-200 dark:border-gray-800">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">school</span>
+<h1 class="text-text-light dark:text-text-dark text-xl font-bold leading-tight tracking-[-0.015em]">Unify Events</h1>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-secondary" href="{% url 'home' %}">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-secondary" href="{% url 'events' %}">Events</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-secondary" href="{% url 'about' %}">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-secondary" href="{% url 'club_list' %}">Clubs</a>
+<a href="{% url 'club_gallery' %}" class="text-sm font-medium hover:text-primary dark:hover:text-secondary">gallery</a>
+<a href="{% url 'help' %}" class="text-sm font-medium hover:text-primary dark:hover:text-secondary">Help</a>
+
+    {% if not user.is_authenticated %}
+      <a href="{% url 'register' %}" class="text-sm font-medium hover:text-primary dark:hover:text-secondary">Register</a>
+    {% else %}
+      <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Logout</a>
+    {% endif %}
+</nav>
+  <div class="flex items-center gap-2">
+    {% if not user.is_authenticated %}
+    <a href="{% url 'login' %}">
+      <button class="hidden md:flex h-10 px-4 rounded-full bg-primary/10 text-primary dark:bg-secondary/20 dark:text-secondary text-sm font-bold">
+        Login
+      </button>
+    </a>
+    {% endif %}
+
+    <!-- Mobile Menu Button -->
+    <button id="menu-btn" class="flex md:hidden h-10 w-10 rounded-full bg-transparent text-text-light dark:text-text-dark">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+  </div>
+</header>
+<nav id="mobile-menu"
+         class="max-h-0 overflow-hidden bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-gray-700 md:hidden transition-all duration-500 ease-in-out">
+      <a href="{% url 'home' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Home</a>
+      <a href="{% url 'events' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Events</a>
+      <a href="{% url 'about' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">About</a>
+      <a class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20" href="{% url 'club_list' %}">Clubs</a>
+      <a class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20" href="{% url 'club_gallery' %}">gallery</a>
+      <a href="{% url 'help' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Help</a>
+      {% if not user.is_authenticated %}
+      <a href="{% url 'register' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Register</a>
+      <a href="{% url 'login' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Login</a>
+      {% else %}
+      
+    <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Log Out</a>
+    {% endif %}
+  </nav>
+
+<main>
+<!-- HeroSection -->
+<div class="@container">
+<div class="@[480px]:p-4">
+<div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4 text-center" data-alt="A vibrant, bustling college campus with students walking between modern buildings under a clear blue sky." style='background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDI_yg-9nGQKvVqLv04sISvHLQB-uY2KLBRxOrfjaraWR5coMzyMrT9I6PhVxTsy6BG_4MFLGFovjARuKJeAfh7bsNgWvFQmyj0XmuXgLq0AmIuOrDTW6pwNpkg-aJxl6kIeFf7AzzVNddTBLSaXbx3V3x4nghYlQZRMbLFSJBEdgStj5AD9uIapA_TG7jwrqN-HAhAqoV02YeitkorZiCpw6W63EoxsI3gHmWDLMFFZZUb6i_lk3gCoqkj95Id51BGdal_RjN_qfU");'>
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl">Discover Your Next Campus Experience</h1>
+<h2 class="text-white/90 text-sm font-normal leading-normal @[480px]:text-base">Engage, connect, and thrive with events at Unify College.</h2>
+</div>
+<a href="{% url 'events' %}">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-6 bg-gradient-to-r from-primary to-secondary text-white text-base font-bold leading-normal tracking-[0.015em] shadow-lg transition-transform hover:scale-105">
+<span class="truncate">Explore Events</span>
+</button>
+</a>
+</div>
+</div>
+</div>
+<!-- Upcoming Events Section -->
+<div>
+  <h2 class="text-text-light dark:text-text-dark text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-8">
+    Upcoming Events
+  </h2>
+
+  <div class="p-4">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-stretch"
+    >
+      {% for event in upcoming_events %}
+      <a href="{% url 'event_detail' event.id %}">
+      <div
+        class="flex flex-col h-full rounded-xl bg-white dark:bg-background-dark/50 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
+      >
+        <!-- Event Image -->
+        <div
+          class="w-full aspect-video bg-center bg-cover"
+          style='background-image: url("{{ event.image.url }}");'
+          data-alt="Event image"
+        ></div>
+
+        <!-- Event Details -->
+        <div class="flex flex-col flex-1 justify-between p-4 gap-4">
+          <div>
+            <p class="text-text-light dark:text-text-dark text-base font-semibold leading-tight">
+              {{ event.title }}
+            </p>
+            <p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">
+              {{ event.date }}, {{ event.time }} - {{ event.location }}
+            </p>
+          </div>
+
+          <!-- Register Button -->
+          
+          <button
+            class="flex w-full items-center justify-center rounded-full h-10 px-4 bg-primary/10 text-primary dark:bg-secondary/20 dark:text-secondary text-sm font-bold leading-normal tracking-[0.015em] transition-transform hover:scale-105"
+          > 
+            <span class="truncate">View Details</span>
+           
+          </button>
+          
+        </div>
+      </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- Campus Life Highlights Section -->
+<div>
+<h2 class="text-text-light dark:text-text-dark text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-8">Campus Life Highlights</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+  {% for compliment in compliments %}
+<div class="flex flex-col gap-4 rounded-xl bg-white dark:bg-background-dark/50 p-6 shadow-md">
+<div class="flex items-center gap-4">
+
+<div>
+<p class="font-bold text-text-light dark:text-text-dark">{{compliment.name}}</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Attended: {{compliment.event}}</p>
+</div>
+</div>
+<p class="text-text-light/80 dark:text-text-dark/80 italic">"{{compliment.message}}"</p>
+</div>
+{% endfor %}
+</div>
+</div>
+<!-- Testimonials Section -->
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-gray-800 dark:bg-black text-white mt-12">
+<div class="container mx-auto px-4 py-8">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+<div>
+<h3 class="font-bold text-lg mb-2">SMVIT College Events</h3>
+<p class="text-sm text-gray-400"><br/>Bangalore, Karnataka</p>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-2">Contact Us</h3>
+<p class="text-sm text-gray-400">
+<a class="hover:underline" href="mailto:contact@unifycollege.edu">contact@smvitcollege.edu</a><br/>
+<a class="hover:underline" href="tel:+1234567890">(123) 456-7890</a>
+</p>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-2">Follow Us</h3>
+<div class="flex justify-center md:justify-start gap-4 mt-2">
+<a class="text-gray-400 hover:text-white" data-alt="Facebook icon" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v2.385z"></path></svg>
+</a>
+<a class="text-gray-400 hover:text-white" data-alt="Twitter icon" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.298 1.634 4.212 3.793 4.649-.65.177-1.354.23-2.06.088.623 1.953 2.413 3.32 4.545 3.359-1.854 1.448-4.141 2.228-6.6 2.228-.426 0-.847-.025-1.265-.074 2.392 1.526 5.252 2.42 8.33 2.42 9.897 0 15.493-8.213 15.27-15.632.938-.678 1.747-1.523 2.393-2.489z"></path></svg>
+</a>
+<a class="text-gray-400 hover:text-white" data-alt="Instagram icon" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.012-3.584.07-4.85c.148-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-700 mt-8 pt-4 text-center text-sm text-gray-500">
+<p>© 2025 smvit College. All Rights Reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+<script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let isOpen = false;
+
+    menuBtn.addEventListener('click', () => {
+      isOpen = !isOpen;
+      if (isOpen) {
+        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+      } else {
+        mobileMenu.style.maxHeight = "0px";
+      }
+    });
+  </script>
+</body></html>

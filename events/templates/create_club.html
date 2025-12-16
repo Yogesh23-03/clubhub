@@ -1,0 +1,105 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Club - Unify Events</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#0A4D68",
+            "background-light": "#F8F9FA",
+            "background-dark": "#050f14",
+            "card-light": "#FFFFFF",
+            "card-dark": "#0c181d",
+            "text-light": "#212529",
+            "text-dark": "#e8eef0",
+            "text-secondary-light": "#6C757D",
+            "text-secondary-dark": "#a1acb3",
+            "border-light": "#E9ECEF",
+            "border-dark": "#2c3940",
+          },
+          fontFamily: { display: ["Lexend", "sans-serif"] },
+          boxShadow: { soft: "0 4px 12px rgba(0, 0, 0, 0.05)" },
+        },
+      },
+    };
+  </script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-10 flex h-16 items-center border-b border-border-light bg-card-light dark:border-border-dark dark:bg-card-dark px-4">
+    <a href="{% url 'club_list' %}">
+      <button class="flex h-10 w-10 items-center justify-center rounded-full text-text-light hover:bg-gray-100 dark:text-text-dark dark:hover:bg-white/10">
+        <span class="material-symbols-outlined text-2xl">arrow_back</span>
+      </button>
+    </a>
+    <h1 class="flex-1 text-center text-lg font-semibold text-text-light dark:text-text-dark pr-10">Add a New Club</h1>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-grow w-full max-w-2xl mx-auto p-4 pb-24">
+    <div class="w-full rounded-xl bg-card-light p-6 shadow-soft dark:bg-card-dark">
+      <h2 class="mb-6 text-2xl font-bold text-text-light dark:text-text-dark">Create a New Club Profile</h2>
+
+      <form method="POST" enctype="multipart/form-data" class="space-y-5">
+        {% csrf_token %}
+
+        <!-- Club Name -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-text-light dark:text-text-dark">Club Name</label>
+          {{ form.name|add_class:"w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary" }}
+        </div>
+
+        
+       
+
+        <!-- Description -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-text-light dark:text-text-dark">Description</label>
+          {{ form.description|add_class:"w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary" }}
+        </div>
+
+        <!-- Leader -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-text-light dark:text-text-dark">Leader Name</label>
+          {{ form.leader|add_class:"w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary" }}
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-text-light dark:text-text-dark">Contact Email</label>
+          {{ form.contact_email|add_class:"w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary" }}
+        </div>
+
+        <!-- Logo -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-text-light dark:text-text-dark">Upload Logo</label>
+          {{ form.logo|add_class:"w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-100 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary" }}
+        </div>
+
+        <!-- Banner -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-text-light dark:text-text-dark">Upload Banner</label>
+          {{ form.banner|add_class:"w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white dark:text-gray-100 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary" }}
+        </div>
+
+        <button type="submit" class="w-full rounded-lg bg-primary py-3 text-white font-semibold hover:bg-primary/90 transition-all">
+          Save Club
+        </button>
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>

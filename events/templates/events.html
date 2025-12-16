@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<title>Upcoming Events</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
+<div class="flex items-center p-4 pb-2 justify-between">
+<div class="flex size-12 shrink-0 items-center justify-start">
+
+</div>
+<h1 class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Upcoming Events</h1>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-transparent text-[#111318] dark:text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+
+<!-- Event Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 pb-4">
+<!-- Card 1 -->
+
+{% for event in events %}
+
+<div class="@container">
+<a href="{% url 'event_detail' event.id %}">
+<div class="flex flex-col items-stretch justify-start rounded-xl overflow-hidden shadow-md bg-white dark:bg-slate-800">
+{% if event.image %}
+  <div class="w-full bg-center bg-no-repeat aspect-video bg-cover"
+       data-alt="{{ event.title }}"
+       style='background-image: url("{{ event.image.url }}");'></div>
+{% else %}
+  <div class="w-full bg-center bg-no-repeat aspect-video bg-cover"
+       data-alt="{{ event.title }}"
+       style='background-image: url("{% static "images/default-event.jpg" %}");'></div>
+{% endif %}
+
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2 p-4">
+<p class="text-[#616f89] dark:text-slate-400 text-sm font-normal leading-normal">{{event.category}}</p>
+<p class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">{{event.title}}</p>
+<p class="text-[#616f89] dark:text-slate-400 text-base font-normal leading-normal line-clamp-2">{{event.description|slice:100}}...</p>
+<div class="flex items-center gap-2 text-[#616f89] dark:text-slate-400 pt-1">
+<span class="material-symbols-outlined text-base">calendar_today</span>
+<p class="text-sm font-normal leading-normal">on :{{event.date}} at :{{event.time}}</p>
+
+      <div class="flex space-x-2 mt-3">
+        {% if user.is_authenticated and perms.events.change_event %}
+        <a href="{% url 'edit_event' event.id %}" 
+           class="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+          Edit
+        </a>
+        {% endif %}
+        {% if user.is_authenticated and perms.events.delete_event %}
+        <a href="{% url 'delete_event' event.id %}" 
+           class="px-3 py-1 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600"
+           onclick="return confirm('Are you sure you want to delete this event?');">
+          Delete
+        </a>
+        {% endif %}
+      </div>
+   
+</div>
+
+<div class="pt-2">
+  <a href="{{ event.registration_link }}">
+<button class="flex w-full max-w-[580px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-medium leading-normal hover:bg-primary/90 transition-colors">
+<span class="truncate">Register Now</span>
+</button>
+</a>
+</div>
+</div>
+</div>
+</a>
+</div>
+
+{% endfor %}
+
+<!-- Card 2 -->
+
+<!-- Card 3 -->
+
+</div>
+</main>
+</div>
+</body></html>
+{% endblock %}

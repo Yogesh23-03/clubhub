@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore All Clubs - Unify Events</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0A4D68",
+            "background-light": "#FFFFFF",
+            "background-dark": "#111d21",
+            "card-light": "#F0F8FF",
+            "card-dark": "#1c2326",
+            "text-light": "#1A1A1A",
+            "text-dark": "#FFFFFF",
+            "text-muted-light": "#6b7280",
+            "text-muted-dark": "#9db1b8",
+          },
+          fontFamily: {
+            "display": ["Lexend", "sans-serif"]
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display">
+  <div class="relative flex flex-col min-h-screen w-full">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-10 bg-background-dark/90 backdrop-blur-md shadow-sm">
+      <div class="flex items-center p-4 justify-between max-w-7xl mx-auto">
+
+        <!-- ✅ Menu Button -->
+        <button id="menu-btn" class="flex size-10 items-center justify-center text-white focus:outline-none">
+          <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+
+        <h1 class="text-xl font-bold text-white flex-1 text-center">Explore All Clubs</h1>
+        {% if user.is_authenticated%}
+        <div class="flex w-10 items-center justify-end">
+          <a href="{% url 'add_club' %}">
+            <span class="material-symbols-outlined text-3xl text-primary">add_circle</span>
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </header>
+
+    <!-- ✅ Menu -->
+    <nav id="mobile-menu"
+         class="max-h-0 overflow-hidden bg-background-dark text-white border-t border-gray-700 transition-all duration-500 ease-in-out">
+      <a href="{% url 'home' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/30">Home</a>
+      <a href="{% url 'events' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/30">Events</a>
+      <a href="{% url 'about' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/30">About</a>
+      <a href="{% url 'club_list' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/30">Clubs</a>
+      <a href="{% url 'help' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/30">Help</a>
+      <a href="{% url 'register' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/30">Register</a>
+      <a href="{% url 'login' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/30">Login</a>
+      <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/30">Log Out</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4">
+     <form method="get" class="py-4">
+  <label class="flex flex-col min-w-40 h-12 w-full">
+    <div class="flex w-full flex-1 items-stretch rounded-xl h-full shadow-sm">
+      <div class="text-text-muted-light dark:text-text-muted-dark flex border border-r-0 border-gray-200 dark:border-gray-700 bg-white dark:bg-card-dark items-center justify-center pl-4 rounded-l-xl">
+        <span class="material-symbols-outlined">search</span>
+      </div>
+      <input 
+        type="text" 
+        name="q" 
+        value="{{ query }}" 
+        placeholder="Search for a club..."
+        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-xl text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-l-0 border-gray-200 dark:border-gray-700 bg-white dark:bg-card-dark h-full placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark px-4 pl-2 text-base font-normal leading-normal"
+      />
+    </div>
+  </label>
+</form>
+{% if not clubs %}
+  <div class="sm:col-span-2 lg:col-span-3 flex flex-col items-center justify-center text-center p-10 bg-card-light dark:bg-card-dark rounded-xl">
+    <span class="material-symbols-outlined text-6xl text-text-muted-light dark:text-text-muted-dark mb-4">
+      search_off
+    </span>
+    <h3 class="text-lg font-bold text-text-light dark:text-text-dark">No Clubs Found</h3>
+    <p class="text-text-muted-light dark:text-text-muted-dark mt-1">Try a different search term!</p>
+  </div>
+{% endif %}
+
+      <!-- Clubs -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-8">
+        {% for club in clubs %}
+        <div class="flex flex-col items-stretch rounded-xl shadow-md bg-card-light dark:bg-card-dark transition-transform duration-300 hover:scale-102 hover:shadow-lg">
+          <div class="p-5 flex flex-col items-center text-center">
+            <img class="w-24 h-24 rounded-full mb-4 object-cover border-4 border-white dark:border-background-dark shadow-md"
+                 src="{{ club.logo.url }}" alt="{{ club.name }}" />
+            <h2 class="text-lg font-bold text-text-light dark:text-text-dark">{{ club.name }}</h2>
+            <p class="text-text-muted-light dark:text-text-muted-dark text-sm mt-1">Led by: {{ club.leader }}</p>
+            <p class="text-text-light dark:text-text-dark text-base my-3">{{ club.description|slice:150 }}</p>
+            <a class="flex w-full max-w-xs items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-medium shadow-sm hover:bg-primary/90"
+               href="{% url 'club_detail' club.slug %}">
+              <span>View Details</span>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let isOpen = false;
+
+    // ✅ Toggle on all screen sizes
+    menuBtn.addEventListener('click', () => {
+      isOpen = !isOpen;
+      if (isOpen) {
+        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+        menuBtn.innerHTML = '<span class="material-symbols-outlined text-3xl">close</span>';
+      } else {
+        mobileMenu.style.maxHeight = "0px";
+        menuBtn.innerHTML = '<span class="material-symbols-outlined text-3xl">menu</span>';
+      }
+    });
+  </script>
+</body>
+</html>

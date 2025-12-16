@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Robotics Club - Unify Events</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0A4D68",
+              "background-light": "#F8F9FA",
+              "background-dark": "#1A202C",
+              "text-light": "#2D3748",
+              "text-dark": "#E2E8F0",
+              "accent": "#FFC107"
+            },
+            fontFamily: {
+              "display": ["Lexend", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-50 flex items-center justify-between border-b border-gray-200/80 bg-background-light/80 p-4 pb-3 dark:border-gray-800/80 dark:bg-background-dark/80 backdrop-blur-sm">
+<span class="material-symbols-outlined text-primary text-3xl">hub</span>
+<h1 class="text-xl font-bold tracking-tight text-primary flex-1 ml-2">Unify Events</h1>
+
+      <div class="flex items-center gap-2">
+        {% if user.is_authenticated and perms.events.change_club  %}
+        <a href="{% url 'edit_club' club.slug %}"
+           class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-primary text-white hover:bg-primary/90 shadow-sm text-sm">
+          <span class="material-symbols-outlined text-base">edit</span>
+          Edit
+        </a>
+        {% endif %}
+        {% if user.is_authenticated and perms.events.delete_club  %}
+        <a href="{% url 'delete_club' club.slug %}"
+           class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-red-600 text-white hover:bg-red-700 shadow-sm text-sm">
+          <span class="material-symbols-outlined text-base">delete</span>
+          Delete
+        </a>
+        {% endif %}
+      </div>
+     
+<button class="flex items-center justify-center rounded-full h-10 w-10 bg-transparent text-text-light dark:text-text-dark">
+<span class="material-symbols-outlined text-2xl">account_circle</span>
+</button>
+</header>
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative">
+<div class="bg-cover bg-center flex flex-col justify-end overflow-hidden min-h-[220px] md:min-h-[300px]" data-alt="Abstract blue and gold geometric pattern representing technology" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 40%), url("{{ club.banner.url }}");'>
+</div>
+<div class="px-4 -mt-16 sm:-mt-20">
+<div class="flex flex-col items-center text-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-32 w-32 sm:h-40 sm:w-40 border-4 border-background-light dark:border-background-dark shadow-lg" data-alt="Robotics club logo, a stylized robot head" style='background-image: url("{{ club.logo.url }}");'></div>
+<h1 class="text-3xl sm:text-4xl font-bold mt-4">{{club.name}}</h1>
+
+</div>
+</div>
+</section>
+<!-- About Us Section -->
+<section class="p-4 pt-8 md:px-8">
+<div class="max-w-3xl mx-auto text-center">
+<h2 class="text-2xl font-bold leading-tight tracking-tight">Our Mission</h2>
+<p class="text-text-light/80 dark:text-text-dark/80 text-base font-normal leading-relaxed mt-2">
+                        {{club.description}}
+                    </p>
+
+</div>
+</section>
+<!-- Core Team Section -->
+<section class="py-8">
+<h2 class="text-2xl font-bold leading-tight tracking-tight px-4 md:px-8">Meet the Team</h2>
+<div class="flex overflow-x-auto mt-4 [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
+<div class="flex items-stretch px-4 md:px-8 gap-4">
+{% for member in club.members.all %}
+<div class="flex flex-col gap-3 text-center rounded-lg min-w-36 pt-4">
+<img class="aspect-square rounded-full object-cover w-28 h-28 self-center" data-alt="Portrait of Samira Khan" src="{{member.photo.url}}"/>
+<div>
+<p class="text-base font-medium leading-normal">{{member.name}}</p>
+<p class="text-text-light/70 dark:text-text-dark/70 text-sm font-normal leading-normal">{{member.role}}</p>
+</div>
+</div>
+{% endfor %}
+</div>
+</div>
+</section>
+<div class="flex justify-center items-center gap-4 mt-6 px-4">
+  {% if user.is_authenticated and perms.events.add_member %}
+    <a href="{% url 'add_member' club.slug %}"
+       class="bg-primary text-white px-6 py-2 rounded-lg shadow-md hover:bg-primary/90 transition-all">
+      + Add New Member
+    </a>
+  {% endif %}
+  {% if user.is_authenticated and perms.events.change_club %}
+    <a href="{% url 'upload_image' club.slug %}"
+       class="bg-primary text-white px-6 py-2 rounded-lg shadow-md hover:bg-primary/90 transition-all">
+      + Add Images to Gallery
+    </a>
+  {% endif %}
+</div>
+<!-- Events Section -->
+<section class="py-8">
+<h2 class="text-2xl font-bold leading-tight tracking-tight px-4 md:px-8">Our Events</h2>
+<div class="px-4 md:px-8 mt-4">
+<div class="border-b border-gray-200 dark:border-gray-700">
+<nav aria-label="Tabs" class="-mb-px flex space-x-6 border-b-2 border-transparent">
+<a class="shrink-0  border-primary px-1 pb-3 text-base font-semibold text-primary" href="?filter=upcoming">Upcoming</a>
+<a class="shrink-0 border-primary px-1 pb-3 text-base font-semibold text-primary" href="?filter=past">Past</a>
+</nav>
+</div>
+</div>
+
+<div class="px-4 md:px-8 mt-6">
+    {% if events %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for event in events %}
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                    <img src="{{ event.image.url }}" class="h-40 w-full object-cover"/>
+
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold">{{ event.title }}</h3>
+                        <p class="text-sm text-gray-500">{{ event.date }} • {{ event.time }}</p>
+
+                        <a href="{% url 'event_detail' event.id %}" 
+                           class="inline-block mt-3 px-4 py-2 bg-primary text-white rounded-lg">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-gray-600 mt-4">No events found.</p>
+    {% endif %}
+</div>
+
+
+
+</section>
+{% if user.is_authenticated and perms.events.add_event %}
+<div class="flex justify-center mb-6">
+  <a href="{% url 'add_event' %}" 
+     class="bg-primary text-white px-5 py-2 rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-md">
+    + Add Event
+  </a>
+</div>
+{% endif %}
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-gray-800/50 mt-12 border-t border-gray-200 dark:border-gray-800">
+<div class="max-w-7xl mx-auto py-8 px-4 md:px-8 text-center">
+<h3 class="text-xl font-bold">Get In Touch</h3>
+<p class="mt-2 text-text-light/70 dark:text-text-dark/70">{{club.contact_email}}</p>
+<div class="flex justify-center space-x-6 mt-4">
+<a class="text-text-light/80 hover:text-primary dark:text-text-dark/80 dark:hover:text-primary" href="{{club.instapage}}">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.803 2.013 10.148 2 12.315 2zm-1.002 6.363a4.152 4.152 0 11-8.303 0 4.152 4.152 0 018.303 0zm-4.15 5.368a1.213 1.213 0 100-2.425 1.213 1.213 0 000 2.425z" fill-rule="evenodd"></path><path d="M16.949 8.194a1.215 1.215 0 10-.001-2.43 1.215 1.215 0 00.001 2.43z"></path></svg>
+</a>
+</div>
+<p class="mt-8 text-sm text-text-light/60 dark:text-text-dark/60">© 2024 Smvit Events. All rights reserved.</p>
+</div>
+</footer>
+</div>
+</body></html>

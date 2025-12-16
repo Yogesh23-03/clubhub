@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}College Event Management{% endblock %}</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0A4D68",
+            "secondary": "#4F8A8B",
+            "background-light": "#F8F9FA",
+            "background-dark": "#101622",
+            "text-light": "#212529",
+            "text-dark": "#F8F9FA",
+          },
+          fontFamily: {
+            "display": ["Lexend", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "full": "9999px",
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
+  <div class="relative flex flex-col min-h-screen w-full overflow-x-hidden">
+
+    <!-- 🌐 Navbar -->
+    <header class="sticky top-0 z-50 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm p-4 justify-between border-b border-gray-200 dark:border-gray-800">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-3xl">school</span>
+        <h1 class="text-xl font-bold text-text-light dark:text-text-dark">Unify Events</h1>
+      </div>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="{% url 'home' %}" class="text-sm font-medium hover:text-primary dark:hover:text-secondary">Home</a>
+        <a href="{% url 'events' %}" class="text-sm font-medium hover:text-primary dark:hover:text-secondary">Events</a>
+        <a href="{% url 'about' %}" class="text-sm font-medium hover:text-primary dark:hover:text-secondary">About</a>
+        <a class="text-sm font-medium hover:text-primary dark:hover:text-secondary" href="{% url 'club_list' %}">Clubs</a>
+        <a href="{% url 'club_gallery' %}" class="text-sm font-medium hover:text-primary dark:hover:text-secondary">gallery</a>
+        <a href="{% url 'help' %}" class="text-sm font-medium hover:text-primary dark:hover:text-secondary">Help</a>
+        {% if not user.is_authenticated %}
+      <a href="{% url 'register' %}" class="text-sm font-medium hover:text-primary dark:hover:text-secondary">Register</a>
+    {% else %}
+      <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Logout</a>
+    {% endif %}
+      </nav>
+
+      <!-- Right Section -->
+      <div class="flex items-center gap-2">
+        {% if not user.is_authenticated %}
+    <a href="{% url 'login' %}">
+      <button class="hidden md:flex h-10 px-4 rounded-full bg-primary/10 text-primary dark:bg-secondary/20 dark:text-secondary text-sm font-bold">
+        Login
+      </button>
+    </a>
+    {% endif %}
+        <!-- Mobile Menu Button -->
+        <button id="menu-btn" class="flex md:hidden h-10 w-10 rounded-full bg-transparent text-text-light dark:text-text-dark">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 📱 Animated Mobile Dropdown Menu -->
+    <nav id="mobile-menu"
+         class="max-h-0 overflow-hidden bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-gray-700 md:hidden transition-all duration-500 ease-in-out">
+      <a href="{% url 'home' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Home</a>
+      <a href="{% url 'events' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Events</a>
+      <a class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20" href="{% url 'club_list' %}">Clubs</a><a href="{% url 'about' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">About</a>
+      <a href="{% url 'club_gallery' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">gallery</a>
+      <a href="{% url 'help' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Help</a>
+      {% if not user.is_authenticated %}
+      <a href="{% url 'register' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Register</a>
+      <a href="{% url 'login' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Login</a>
+      {% else %}
+      <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm font-medium hover:bg-primary/10 dark:hover:bg-secondary/20">Log Out</a>
+      {% endif %}
+    </nav>
+
+    <!-- 🧱 Page-specific content -->
+    <main class="flex-grow">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <!-- ⚓ Footer -->
+    <footer class="bg-gray-800 dark:bg-black text-white mt-12">
+      <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+          <div>
+            <h3 class="font-bold text-lg mb-2">SMVIT College Events</h3>
+            <p class="text-sm text-gray-400"><br/>Bangalore, Karnataka</p>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg mb-2">Contact Us</h3>
+            <p class="text-sm text-gray-400">
+              <a href="mailto:contact@smvitcollege.edu" class="hover:underline">contact@smvitcollege.edu</a><br/>
+              <a href="tel:+1234567890" class="hover:underline">(123) 456-7890</a>
+            </p>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg mb-2">Follow Us</h3>
+            <div class="flex justify-center md:justify-start gap-4 mt-2">
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-4 text-center text-sm text-gray-500">
+          <p>© 2025 SMVIT College. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 📜 Mobile Dropdown Animation Script -->
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let isOpen = false;
+
+    menuBtn.addEventListener('click', () => {
+      isOpen = !isOpen;
+      if (isOpen) {
+        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+      } else {
+        mobileMenu.style.maxHeight = "0px";
+      }
+    });
+  </script>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

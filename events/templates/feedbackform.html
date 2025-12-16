@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>feedback</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .bg-pattern {
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0A4D68",
+            "accent": "#4F8A8B",
+            "background-light": "#F8F9FA",
+            "background-dark": "#1A202C",
+            "card-light": "#FFFFFF",
+            "card-dark": "#2D3748",
+            "text-light": "#2D3748",
+            "text-dark": "#E2E8F0",
+            "error": "#E53E3E"
+          },
+          fontFamily: {
+            "display": ["Lexend", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex min-h-screen w-full flex-col bg-pattern">
+   
+<header class="flex items-center p-4 pb-2 justify-between bg-background-light dark:bg-background-dark/50 backdrop-blur-sm sticky top-0 z-10">
+     <a href=""{{ request.META.HTTP_REFERER|default:'/' }}"">
+<button class="text-text-light dark:text-text-dark flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+</a>
+<h1 class="text-text-light dark:text-text-dark text-lg font-bold leading-tight flex-1 text-center">Your Feedback</h1>
+<div class="w-10"></div> 
+</header>
+<main class="flex flex-1 flex-col items-center justify-center p-4">
+<div class="w-full max-w-md space-y-6">
+<p class="text-text-light dark:text-text-dark text-base font-normal leading-normal text-center">Have a question or feedback? We'd love to hear from you.</p>
+<form method="POST" action="">
+  {% csrf_token %}
+  <div class="w-full space-y-4 rounded-xl bg-card-light dark:bg-card-dark p-6 shadow-lg">
+    <label class="flex flex-col flex-1">
+      <p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal pb-2">Full Name</p>
+      <input name="name" required class="form-input w-full rounded-lg h-12 px-4 border bg-background-light dark:bg-background-dark" placeholder="Enter your full name"/>
+    </label>
+
+    <label class="flex flex-col flex-1">
+      <p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal pb-2">Email Address</p>
+      <input name="email" required type="email" class="form-input w-full rounded-lg h-12 px-4 border bg-background-light dark:bg-background-dark" placeholder="Enter your email"/>
+    </label>
+
+    <label class="flex flex-col flex-1">
+      <p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal pb-2">Message</p>
+      <textarea name="message" required class="form-textarea w-full rounded-lg p-4 border bg-background-light dark:bg-background-dark min-h-[120px]" placeholder="Your Message..."></textarea>
+    </label>
+    <a href="{% url 'submit_feedback' event.id %}">
+    <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-primary h-12 px-6 text-base font-bold text-white shadow-md hover:scale-105 transition">
+      Submit
+    </button>
+    </a>
+  </div>
+</form>
+
+<!-- Success / Error Messages -->
+{% if messages %}
+  <div class="mt-4 text-center">
+    {% for message in messages %}
+      <p class="text-white bg-green-600 px-4 py-2 rounded-lg inline-block">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
+</div>
+</main>
+</div>
+
+</body></html>

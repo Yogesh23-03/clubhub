@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}About - Unify College Events{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative">
+  <div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat items-start justify-end px-4 pb-10 md:px-10 rounded-none md:rounded-xl"
+    style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCFBUxHI7SyGFzqN1wQRCKp04WEGsPOFSDVarjVDeHaE-ni0LfCOWiDCZTirr8412y2xhlcbULVricjG0xooERKcna_PA5RZzClSGtnMdeVojRZ-D7xXreW0dKp7AzG0R0gg0sA1DjJXlUnzHfzsd2IKyrdj_akyc-x_rZQsv9dLdri8w9jGN2GewrRIJ_R3g-ilaumwy46qXxaXIYq66Q6QTCAsYW4XK3iTdJv8HOB4FlBb2rb5TmGjMzQGthcPESFD4FA8OYnkio");'>
+    <div class="flex flex-col gap-2 text-left">
+      <h1 class="text-white text-4xl font-black leading-tight md:text-5xl">
+        Welcome to Sir MVIT Events
+      </h1>
+      <h2 class="text-white text-sm md:text-base font-normal">
+        Connecting our community through shared experiences, innovation, and celebration.
+      </h2>
+    </div>
+    <a href="{% url 'events' %}" class="mt-4 flex items-center justify-center bg-primary text-white h-10 md:h-12 px-5 rounded-lg text-sm md:text-base font-bold hover:scale-105 transition-transform">
+      Explore Events
+    </a>
+  </div>
+</div>
+
+<!-- About Section -->
+<div class="p-6 md:p-10 space-y-8">
+  <!-- About the College -->
+  <div class="bg-white dark:bg-background-dark/50 p-6 rounded-xl shadow-sm">
+    <h2 class="text-[#111318] dark:text-gray-100 text-[22px] font-bold pb-3">About the College</h2>
+    <p class="text-[#111318] dark:text-gray-300 text-base">
+      Sir M. Visvesvaraya Institute of Technology (Sir MVIT), established in 1986 under the Sri Krishnadevaraya Educational Trust, is a premier engineering institution located in Bengaluru, Karnataka, offering undergraduate and postgraduate programmes affiliated with Visvesvaraya Technological University (VTU) and approved by All India Council for Technical Education (AICTE). 
+
+Spread over a spacious campus of 133 acres at Krishnadevaraya Nagar, Hunasamaranahalli, North Bengaluru, Sir MVIT blends rigorous academics with holistic development. 
+sirmvit.edu
++1
+
+With a focus on nurturing technical competency alongside ethical values, innovation and social responsibility, the institute emphasises state-of-the-art infrastructure, experienced faculty, industry-linked curriculum and vibrant student life. 
+
+
+Sir MVIT’s mission is to empower future-ready engineers through a balanced blend of theory, hands-on practice, research opportunities and co-curricular enrichment, thereby playing a key role in shaping the technology leaders of tomorrow.
+    </p>
+  </div>
+
+  <!-- Our Mission -->
+  <div class="bg-white dark:bg-background-dark/50 p-6 rounded-xl shadow-sm">
+    <h2 class="text-[#111318] dark:text-gray-100 text-[22px] font-bold pb-3">Our Mission</h2>
+    <div class="grid grid-cols-[40px_1fr] gap-x-2">
+      <!-- 1️⃣ Foster Community -->
+      <div class="flex flex-col items-center gap-1 pt-3">
+        <div class="flex items-center justify-center h-10 w-10 bg-primary/10 rounded-full">
+          <span class="material-symbols-outlined text-primary">handshake</span>
+        </div>
+        <div class="w-[1.5px] bg-primary/20 h-2 grow"></div>
+      </div>
+      <div class="flex flex-col py-3">
+        <p class="text-[#111318] dark:text-gray-100 text-base font-medium">Foster Community</p>
+        <p class="text-[#616f89] dark:text-gray-400 text-base">Connecting students through shared experiences.</p>
+      </div>
+
+      <!-- 2️⃣ Inspire Innovation -->
+      <div class="flex flex-col items-center gap-1">
+        <div class="w-[1.5px] bg-primary/20 h-2 grow"></div>
+        <div class="flex items-center justify-center h-10 w-10 bg-primary/10 rounded-full">
+          <span class="material-symbols-outlined text-primary">lightbulb</span>
+        </div>
+        <div class="w-[1.5px] bg-primary/20 h-2 grow"></div>
+      </div>
+      <div class="flex flex-col py-3">
+        <p class="text-[#111318] dark:text-gray-100 text-base font-medium">Inspire Innovation</p>
+        <p class="text-[#616f89] dark:text-gray-400 text-base">Showcasing groundbreaking projects and ideas.</p>
+      </div>
+
+      <!-- 3️⃣ Celebrate Achievement -->
+      <div class="flex flex-col items-center gap-1">
+        <div class="w-[1.5px] bg-primary/20 h-2 grow"></div>
+        <div class="flex items-center justify-center h-10 w-10 bg-primary/10 rounded-full">
+          <span class="material-symbols-outlined text-primary">trophy</span>
+        </div>
+      </div>
+      <div class="flex flex-col py-3">
+        <p class="text-[#111318] dark:text-gray-100 text-base font-medium">Celebrate Achievement</p>
+        <p class="text-[#616f89] dark:text-gray-400 text-base">Recognizing the outstanding work of our students and faculty.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

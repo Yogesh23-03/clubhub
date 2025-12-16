@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Help & Support | Unify Events{% endblock %}
+
+{% block content %}
+<main class="flex-1 bg-background-light dark:bg-background-dark font-display min-h-screen">
+  <!-- Top App Bar -->
+  <header class="flex items-center bg-white dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10 border-b border-gray-200 dark:border-gray-800">
+    <div class="flex size-12 shrink-0 items-center justify-start">
+      <a href="{% url 'home' %}">
+        <span class="material-symbols-outlined text-[#111318] dark:text-white">arrow_back</span>
+      </a>
+    </div>
+    <h2 class="text-[#111318] dark:text-white text-lg font-bold leading-tight flex-1 text-center">Help & Support</h2>
+    <div class="w-12"></div>
+  </header>
+
+  <!-- Search Bar -->
+  {% comment %} <div class="px-4 py-4 bg-white dark:bg-background-dark">
+    <label class="flex flex-col min-w-40 h-12 w-full">
+      <div class="flex w-full items-stretch rounded-lg h-full shadow-sm">
+        <div class="text-[#616f89] dark:text-gray-400 flex border-none bg-background-light dark:bg-gray-800 items-center justify-center pl-4 rounded-l-lg">
+          <span class="material-symbols-outlined">search</span>
+        </div>
+        <input type="text" placeholder="Search for questions..."
+          class="form-input flex w-full rounded-r-lg text-[#111318] dark:text-white border-none bg-background-light dark:bg-gray-800 focus:ring-2 focus:ring-primary/50 h-full placeholder:text-[#616f89] dark:placeholder:text-gray-400 px-4 pl-2 text-base">
+      </div>
+    </label>
+  </div> {% endcomment %}
+
+  <!-- FAQ Section -->
+  <div class="bg-white dark:bg-background-dark py-4">
+    <h3 class="text-[#111318] dark:text-white text-lg font-bold px-4 pb-2 pt-4">Frequently Asked Questions</h3>
+    <div class="flex flex-col p-4 gap-3">
+
+      {% for faq in faqs %}
+      <details class="flex flex-col rounded-xl border border-[#dbdfe6] dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 shadow-sm hover:shadow-md transition-shadow">
+        <summary class="flex cursor-pointer items-center justify-between gap-6 py-2">
+          <p class="text-[#111318] dark:text-white text-sm font-medium">{{ faq.question }}</p>
+          <div class="text-[#111318] dark:text-white group-open:rotate-180 transition-transform">
+            <span class="material-symbols-outlined">expand_more</span>
+          </div>
+        </summary>
+        <p class="text-[#616f89] dark:text-gray-400 text-sm pb-2">{{ faq.answer }}</p>
+      </details>
+      {% endfor %}
+
+    </div>
+  </div>
+
+  <!-- Still Need Help -->
+  <div class="py-4">
+    <h3 class="text-[#111318] dark:text-white text-lg font-bold px-4 pb-2 pt-4">Still need help?</h3>
+    <div class="flex flex-col px-4 pt-2 pb-4 gap-4">
+      <a href="mailto:support@events.edu"
+        class="flex items-center gap-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-sm hover:shadow-md transition">
+        <div class="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+          <span class="material-symbols-outlined">email</span>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-[#111318] dark:text-white">Email Support</p>
+          <p class="text-sm text-[#616f89] dark:text-gray-400">support@events.edu</p>
+        </div>
+        <span class="material-symbols-outlined ml-auto text-gray-400 dark:text-gray-500">chevron_right</span>
+      </a>
+
+      <a href="tel:+918023467890"
+        class="flex items-center gap-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-sm hover:shadow-md transition">
+        <div class="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+          <span class="material-symbols-outlined">call</span>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-[#111318] dark:text-white">Call Us</p>
+          <p class="text-sm text-[#616f89] dark:text-gray-400">+91 8023 467 890</p>
+        </div>
+        <span class="material-symbols-outlined ml-auto text-gray-400 dark:text-gray-500">chevron_right</span>
+      </a>
+    </div>
+  </div>
+</main>
+{% endblock %}
