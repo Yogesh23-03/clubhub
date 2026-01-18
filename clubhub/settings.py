@@ -20,7 +20,8 @@ SECRET_KEY = config('SECRET_KEY', default='unsafe-secret-key-change-me')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS =*
+ALLOWED_HOSTS = ["*"]
+
 
 # --------------------------------------------------
 # APPLICATIONS
