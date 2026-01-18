@@ -18,7 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # --------------------------------------------------
 SECRET_KEY = config('SECRET_KEY', default='unsafe-secret-key-change-me')
 
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config("DEBUG", cast=bool, default=False)
+
 
 ALLOWED_HOSTS = ["*"]
 
