@@ -13,20 +13,21 @@ from decouple import config, Csv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# --------------------------------------------------
-# SECURITY
-# --------------------------------------------------
-SECRET_KEY = config('SECRET_KEY', default='unsafe-secret-key-change-me')
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-DEBUG = config("DEBUG", cast=bool, default=False)
+# 1. SECURITY WARNING: Use config() to read secret key securely!
+SECRET_KEY = config('SECRET_KEY')
+
+# 2. SECURITY WARNING: Read DEBUG setting securely!
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+# 3. Read ALLOWED_HOSTS securely (uses Csv to handle list of hosts)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', cast=Csv())
 
 
-ALLOWED_HOSTS = ["*"]
+# Application definition
 
-
-# --------------------------------------------------
-# APPLICATIONS
-# --------------------------------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
